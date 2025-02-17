@@ -8,6 +8,7 @@ namespace GenericBankExercise.Entity
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Cpf { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -18,12 +19,13 @@ namespace GenericBankExercise.Entity
         public float Balance { get; set; }
         public float Salary { get; set; }
 
-        public Client(int Id)
+        public Client(int id)
         {
-            this.Id = Id;
+            Id = id;
             FirstName = string.Empty;
             LastName = string.Empty;
             BirthDate = DateTime.MinValue;
+            Cpf = string.Empty;
             Address = string.Empty;
             City = string.Empty;
             State = string.Empty;
