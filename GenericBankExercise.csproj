@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties clientsmockup_1json__JsonSchema="https://json.schemastore.org/azure-containerapp-template.json" /></VisualStudio></ProjectExtensions>
+
+  <ItemGroup>
+    <None Remove="ClientsMockup.json" />
+  </ItemGroup>
+
 </Project>
