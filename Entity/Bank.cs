@@ -11,6 +11,7 @@ namespace GenericBankExercise.Entity
         public string BankName { get; set; }
         public string BankCode { get; set; }
         public List<Client> Clients { get; set; }
+
         public Bank() 
         {
             BankName = "Generic Bank";

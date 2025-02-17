@@ -23,8 +23,14 @@ namespace GenericBank
                     Phone = "(11) 00000-4121",
                     Email = "joao@gmail.com",
                     Password = "123456",
-                    Balance = 0.0F,
-                    Salary = 1500.0F
+                    Salary = 1500.0F,
+                    BankAccount = new BankAccount
+                    {
+                        AccountNumber = "12345-6",
+                        Agency = "1234",
+                        AccountType = AccountType.ContaCorrente,
+                        Balance = 0.0F
+                    }
                 },
                 new Client(2)
                 {
@@ -39,8 +45,14 @@ namespace GenericBank
                     Phone = "(21) 00000-2920",
                     Email = "maria@gmail.com",
                     Password = "789101",
-                    Balance = 0.0F,
-                    Salary = 2000.0F
+                    Salary = 2000.0F,
+                    BankAccount = new BankAccount
+                    {
+                        AccountNumber = "54321-0",
+                        Agency = "4321",
+                        AccountType = AccountType.ContaPoupanca,
+                        Balance = 0.0F
+                    }
                 }
 
             };
@@ -53,6 +65,23 @@ namespace GenericBank
 
             Console.WriteLine($"Banco: {bank.BankName} ({bank.BankCode})");
             Console.WriteLine($"Total de clientes: {bank.Clients.Count}");
+
+            foreach (var client in bank.Clients)
+            {
+                Console.WriteLine($"\n--- Informações do Cliente {client.FirstName} ---");
+                Console.WriteLine($"Nome: {client.FirstName} {client.LastName}");
+                Console.WriteLine($"CPF: {client.Cpf}");
+                Console.WriteLine($"Data de Nascimento: {client.FormatBirthDate()}");
+                Console.WriteLine($"Endereço: {client.Address}, {client.City} - {client.State}, {client.ZipCode}");
+                Console.WriteLine($"Telefone: {client.Phone}");
+                Console.WriteLine($"Email: {client.Email}");
+                Console.WriteLine($"Salário: {client.FormatSalary()}");
+                Console.WriteLine($"Tipo de Conta: {client.BankAccount.AccountType}");
+                Console.WriteLine($"Número da Conta: {client.BankAccount.AccountNumber}");
+                Console.WriteLine($"Agência: {client.BankAccount.Agency}");
+                Console.WriteLine($"Saldo da Conta: {client.BankAccount.FormatBalance()}");
+
+            }
         }
     }
 }

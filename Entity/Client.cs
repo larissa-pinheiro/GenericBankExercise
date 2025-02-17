@@ -16,8 +16,8 @@ namespace GenericBankExercise.Entity
         public string Phone { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public float Balance { get; set; }
         public float Salary { get; set; }
+        public BankAccount BankAccount { get; set; }
 
         public Client(int id)
         {
@@ -33,18 +33,13 @@ namespace GenericBankExercise.Entity
             Phone = string.Empty;
             Email = string.Empty;
             Password = string.Empty;
-            Balance = 0.0F;
             Salary = 0.0F;
+            BankAccount = new BankAccount();
         }
 
         public string FormatBirthDate()
         {
             return BirthDate.ToString("dd/MM/yyyy", new CultureInfo("pt-BR"));
-        }
-
-        public string FormatBalance()
-        {
-            return Balance.ToString("C", new CultureInfo("pt-BR"));
         }
 
         public string FormatSalary()
