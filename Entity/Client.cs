@@ -18,6 +18,7 @@ namespace GenericBankExercise.Entity
         public string Password { get; set; }
         public float Salary { get; set; }
         public BankAccount BankAccount { get; set; }
+        public List<Transactions> TransactionHistory { get; set; }
 
         public Client(int id)
         {
@@ -35,7 +36,47 @@ namespace GenericBankExercise.Entity
             Password = string.Empty;
             Salary = 0.0F;
             BankAccount = new BankAccount();
+            TransactionHistory = new List<Transactions>();
         }
+
+        public void AddTransaction(Transactions transaction)
+        {
+            TransactionHistory.Add(transaction);
+        }
+
+        public void ShowTransactionHistory()
+        {
+            foreach (var transaction in TransactionHistory)
+            {
+                Console.WriteLine($"Histórico de transações de {FirstName} {LastName}:");
+                Console.WriteLine($"Id: {transaction.Id}");
+                Console.WriteLine($"Data: {transaction.FormatTransactionDate()}");
+                Console.WriteLine($"Tipo: {transaction.TransactionType}");
+                Console.WriteLine($"Descrição: {transaction.Description}");
+                Console.WriteLine($"Valor: {transaction.FormatTransactionValue()}");
+            }
+        }
+
+        public static Client Login(List<Client> clients)
+        {
+            Console.Write("Informe o CPF no formato XXX.XXX.XXX-XX: ");
+            string cpf = Console.ReadLine();
+            Console.Write("Informe a senha de 6 dígitos: ");
+            string password = Console.ReadLine();
+
+            var client = clients.FirstOrDefault(c => c.Cpf == cpf && c.Password == password);
+            if (client != null)
+            {
+                Console.WriteLine("Login bem-sucedido!");
+                return client;
+            }
+            else
+            {
+                Console.WriteLine("CPF ou senha inválidos.");
+                return null;
+            }
+        }
+
 
         public string FormatBirthDate()
         {

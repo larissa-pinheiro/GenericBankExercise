@@ -57,31 +57,84 @@ namespace GenericBank
 
             };
 
-            foreach (var client in clients)
+            foreach (var c in clients)
             {
-                bank.AddClient(client);
+                bank.AddClient(c);
             }
 
-
-            Console.WriteLine($"Banco: {bank.BankName} ({bank.BankCode})");
-            Console.WriteLine($"Total de clientes: {bank.Clients.Count}");
-
-            foreach (var client in bank.Clients)
+            Client client = Client.Login(clients);
+            if (client == null)
             {
-                Console.WriteLine($"\n--- Informações do Cliente {client.FirstName} ---");
-                Console.WriteLine($"Nome: {client.FirstName} {client.LastName}");
-                Console.WriteLine($"CPF: {client.Cpf}");
-                Console.WriteLine($"Data de Nascimento: {client.FormatBirthDate()}");
-                Console.WriteLine($"Endereço: {client.Address}, {client.City} - {client.State}, {client.ZipCode}");
-                Console.WriteLine($"Telefone: {client.Phone}");
-                Console.WriteLine($"Email: {client.Email}");
-                Console.WriteLine($"Salário: {client.FormatSalary()}");
-                Console.WriteLine($"Tipo de Conta: {client.BankAccount.AccountType}");
-                Console.WriteLine($"Número da Conta: {client.BankAccount.AccountNumber}");
-                Console.WriteLine($"Agência: {client.BankAccount.Agency}");
-                Console.WriteLine($"Saldo da Conta: {client.BankAccount.FormatBalance()}");
-
+                Console.WriteLine("Não foi possível realizar o login.");
+                return;
             }
+
+            bool exit = false;
+            while (!exit)
+            {
+                Console.WriteLine("\nSelecione uma opção:");
+                Console.WriteLine("1 - Realizar Transação");
+                Console.WriteLine("2 - Ver Histórico de Transações");
+                Console.WriteLine("3 - Sair");
+
+                int option = int.Parse(Console.ReadLine());
+
+                switch (option)
+                {
+                    case 1:
+                        // Realizar transação
+                        ExecuteTransaction(client);
+                        break;
+                    case 2:
+                        // Ver histórico de transações
+                        client.ShowTransactionHistory();
+                        break;
+                    case 3:
+                        // Sair
+                        exit = true;
+                        Console.WriteLine("Saindo...");
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida.");
+                        break;
+                }
+            }
+        }
+
+
+        public static void ExecuteTransaction(Client client)
+        {
+            Console.WriteLine("Selecione o tipo de transação:");
+            Console.WriteLine("1 - Débito");
+            Console.WriteLine("2 - Crédito");
+            int transactionType = int.Parse(Console.ReadLine());
+
+            Console.Write("Informe a descrição da transação: ");
+            string description = Console.ReadLine();
+
+            Console.Write("Informe o valor da transação: ");
+            float value = float.Parse(Console.ReadLine());
+
+            var transaction = new Transactions(client.TransactionHistory.Count + 1, client)
+            {
+                TransactionType = (TransactionType)transactionType,
+                Description = description,
+                Value = value
+            };
+
+            client.AddTransaction(transaction);
+
+            // Atualizando o saldo com base no tipo de transação
+            if (transaction.TransactionType == TransactionType.Crédito)
+            {
+                client.BankAccount.Balance += value;
+            }
+            else if (transaction.TransactionType == TransactionType.Débito)
+            {
+                client.BankAccount.Balance -= value;
+            }
+
+            Console.WriteLine("Transação realizada com sucesso!");
         }
     }
 }
