@@ -82,15 +82,12 @@ namespace GenericBank
                 switch (option)
                 {
                     case 1:
-                        // Realizar transação
                         ExecuteTransaction(client);
                         break;
                     case 2:
-                        // Ver histórico de transações
                         client.ShowTransactionHistory();
                         break;
                     case 3:
-                        // Sair
                         exit = true;
                         Console.WriteLine("Saindo...");
                         break;
@@ -100,7 +97,6 @@ namespace GenericBank
                 }
             }
         }
-
 
         public static void ExecuteTransaction(Client client)
         {
@@ -124,7 +120,6 @@ namespace GenericBank
 
             client.AddTransaction(transaction);
 
-            // Atualizando o saldo com base no tipo de transação
             if (transaction.TransactionType == TransactionType.Crédito)
             {
                 client.BankAccount.Balance += value;
